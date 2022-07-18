@@ -3,6 +3,7 @@ package BinarySearch;
 import java.util.Arrays;
 import java.util.Scanner;
 
+// 숫자 카드 2
 public class Algorithm10816 {
   private static int getUpperBound(int[] arr, int num) {
     int lt = 0, rt = arr.length - 1;

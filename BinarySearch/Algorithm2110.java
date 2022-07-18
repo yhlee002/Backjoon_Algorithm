@@ -3,6 +3,7 @@ package BinarySearch;
 import java.util.Arrays;
 import java.util.Scanner;
 
+// 공유기 설치
 public class Algorithm2110 {
     private int solution(int n, int c, int[] arr) {
         int answer = Integer.MIN_VALUE;
