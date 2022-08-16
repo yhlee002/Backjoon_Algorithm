@@ -1,6 +1,7 @@
 package Tree;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,7 +20,7 @@ public class Algorithm22278 {
             paths[x - 1].add(sum);
         } else {
             for (int i = 1; i <= n; i++) {
-                if (!checked[k][i] && i != k) {
+                if (!checked[k][i]) {
                     checked[k][i] = true;
                     DFS(x, i, sum + matrix[k][i]);
                     checked[k][i] = false;
@@ -37,6 +38,7 @@ public class Algorithm22278 {
                     checked2[i] = true;
                     getMinSum(L + 1, x, sum + paths[x - 1].get(i));
                     getMinSum(L, x, sum);
+                    checked2[i] = false;
                 }
             }
         }
@@ -53,18 +55,20 @@ public class Algorithm22278 {
             matrix = new int[n + 1][n + 1];
             checked = new boolean[n + 1][n + 1];
 
-            for (int i = 1; i <= m; i++) {
+            sc.nextLine();
+            for (int i = 0; i < m; i++) {
                 int a = sc.nextInt();
                 int b = sc.nextInt();
-                matrix[a][b] = sc.nextInt();
+                int edge = sc.nextInt();
+                matrix[a][b] = edge;
             }
 
             for (int i = 0; i < n; i++) {
                 if (i > 0) {
                     min = Integer.MAX_VALUE;
                     paths[i] = new ArrayList<>();
-
-                    main.DFS(i + 1, 1, 0);
+                    checked[1][1] = true;
+                    main.DFS(i + 1, 1, 1);
                     if (paths[i].size() < 2) min = -1;
                     else {
                         checked2 = new boolean[paths[i].size()];
