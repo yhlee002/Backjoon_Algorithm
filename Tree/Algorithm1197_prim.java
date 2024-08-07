@@ -2,8 +2,11 @@ package Tree;
 
 import java.util.*;
 
-// 최대 수입 스케쥴
 public class Algorithm1197_prim {
+  static int n;
+  static int e;
+  static boolean[] checked;
+  static ArrayList<ArrayList<Edge>> list;
   static class Edge implements Comparable<Edge> {
     int vertex;
     int cost;
@@ -15,15 +18,15 @@ public class Algorithm1197_prim {
 
     @Override
     public int compareTo(Edge e) {
-      return e.cost - this.cost;
+      return this.cost - e.cost;
     }
   }
 
-  int prim(int n, int e, boolean[] checked, List<List<Edge>> list) {
+  int prim() {
     int sum = 0;
     PriorityQueue<Edge> q = new PriorityQueue();
     q.offer(new Edge(1, 0));
-    while (q.isEmpty()) {
+    while (!q.isEmpty()) {
       Edge r = q.poll();
       if (!checked[r.vertex]) {
         checked[r.vertex] = true;
@@ -40,10 +43,10 @@ public class Algorithm1197_prim {
   public static void main(String[] args) {
     Algorithm1197_prim main = new Algorithm1197_prim();
     Scanner sc = new Scanner(System.in);
-    int n = sc.nextInt();
-    int e = sc.nextInt();
-    boolean[] checked = new boolean[n + 1];
-    List<List<Edge>> list = new ArrayList<>();
+    n = sc.nextInt();
+    e = sc.nextInt();
+    checked = new boolean[n + 1];
+    list = new ArrayList<>();
     for (int i = 0; i <= e; i++) list.add(new ArrayList<>());
     for (int i = 0; i < n; i++) {
       int a = sc.nextInt();
@@ -54,6 +57,6 @@ public class Algorithm1197_prim {
       list.get(b).add(new Edge(a, c));
     }
 
-    System.out.println(main.prim(n, e, checked, list));
+    System.out.println(main.prim());
   }
 }

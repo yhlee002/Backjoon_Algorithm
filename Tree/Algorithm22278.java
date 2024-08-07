@@ -1,45 +1,48 @@
 package Tree;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 // 두 최단 경로
 public class Algorithm22278 {
-    static int n;
-    static int m;
-    static int[][] matrix;
-    static boolean[][] checked;
-    static List<Integer>[] paths;
-    static boolean[] checked2;
-    static int min;
+    static List<Integer> nList = new ArrayList<>();
+    static List<Integer> mList = new ArrayList<>();
+    static List<List<List<Edge>>> list = new ArrayList<>();
+    static List<Integer>[] path;
 
-    void DFS(int x, int k, int sum) { // x: 목표지점, k: 현재 지점, sum: 경로 가중치의 합
-        if (k == x) { // 하나의 경로 탐색
-            paths[x - 1].add(sum);
-        } else {
-            for (int i = 1; i <= n; i++) {
-                if (!checked[k][i]) {
-                    checked[k][i] = true;
-                    DFS(x, i, sum + matrix[k][i]);
-                    checked[k][i] = false;
-                }
-            }
+    static class Edge implements Comparable<Edge> {
+        int vertex;
+        int cost;
+
+        public Edge (int vertex, int cost) {
+            this.vertex = vertex;
+            this.cost = cost;
+        }
+
+        public int compareTo(Edge e) {
+            return this.cost - e.cost;
         }
     }
 
-    void getMinSum(int L, int x, int sum) {
-        if (L == 2) {
-            min = Math.min(min, sum);
-        } else {
-            for (int i = 0; i < paths[x - 1].size(); i++) {
-                if (!checked2[i]) {
-                    checked2[i] = true;
-                    getMinSum(L + 1, x, sum + paths[x - 1].get(i));
-                    getMinSum(L, x, sum);
-                    checked2[i] = false;
-                }
+    void solution(int idx) {
+        int n = nList.get(idx);
+        int m = mList.get(idx);
+//        boolean[] checked = new boolean[n + 1];
+        path = new ArrayList[n + 1];
+        for (int i = 0; i <= n; i++) path[i] = new ArrayList<>();
+
+        PriorityQueue<Edge> q = new PriorityQueue<Edge>();
+        q.offer(new Edge(1, 0));
+        path[1].add(0);
+//        checked[1] = true;
+        while (!q.isEmpty()) {
+            Edge edge = q.poll();
+            int curr = edge.vertex;
+            int currCost = edge.cost;
+            List<Edge> currentList = list.get(idx).get(curr);
+            for (Edge e : currentList) {
+//                if (checked[e.vertex])
+                q.offer(new Edge(e.vertex, currCost + e.cost));
+                path[e.vertex].add(currCost + e.cost);
             }
         }
     }
@@ -49,37 +52,35 @@ public class Algorithm22278 {
         Scanner sc = new Scanner(System.in);
         int tc = sc.nextInt();
         for (int k = 0; k < tc; k++) {
-            n = sc.nextInt();
-            m = sc.nextInt();
-            paths = new ArrayList[n];
-            matrix = new int[n + 1][n + 1];
-            checked = new boolean[n + 1][n + 1];
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            nList.add(n);
+            mList.add(m);
 
-            sc.nextLine();
+            list.add(new ArrayList<>());
+            for (int i = 0; i <= n; i++) list.get(k).add(new ArrayList<>());
             for (int i = 0; i < m; i++) {
                 int a = sc.nextInt();
                 int b = sc.nextInt();
-                int edge = sc.nextInt();
-                matrix[a][b] = edge;
+                int cost = sc.nextInt();
+                list.get(k).get(a).add(new Edge(b, cost));
             }
+        }
 
-            for (int i = 0; i < n; i++) {
-                if (i > 0) {
-                    min = Integer.MAX_VALUE;
-                    paths[i] = new ArrayList<>();
-                    checked[1][1] = true;
-                    main.DFS(i + 1, 1, 1);
-                    if (paths[i].size() < 2) min = -1;
-                    else {
-                        checked2 = new boolean[paths[i].size()];
-                        main.getMinSum(0, i + 1,0);
-                    }
+        for (int i = 0; i < tc; i++) {
+            main.solution(i);
+            for (int j = 2; j <= nList.get(i); j++) {
+                PriorityQueue<Integer> q = new PriorityQueue();
+                for (int cost : path[j]) q.offer(cost);
 
-                    System.out.print(min + " ");
+                if (q.size() < 2) System.out.print(-1 + " ");
+                else {
+                    int sum = 0;
+                    for (int l = 0; l < 2; l++) sum += q.poll();
+                    System.out.print(sum);
                 }
             }
             System.out.println();
         }
-
     }
 }
