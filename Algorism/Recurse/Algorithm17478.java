@@ -1,4 +1,4 @@
-package Recurse;
+package Algorism.Recurse;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package Sort.HeapSort;
+package Algorism.Sort.HeapSort;
 
 import java.util.Scanner;
 

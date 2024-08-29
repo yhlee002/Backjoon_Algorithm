@@ -1,9 +1,8 @@
-package Tree;
+package DataStructure.Tree;
 
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-import java.util.Stack;
 
 // 트리 순회
 public class Algorithm1991 {
