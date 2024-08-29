@@ -1,5 +1,6 @@
 package Algorism.Greedy.Dijkstra;
 
+import java.util.Scanner;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -42,8 +43,9 @@ public class Algorithm13549_01bfs {
     }
 
     public void solution() {
-        int a = 5;
-        int b = 17;
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        int b = sc.nextInt();
 
         int result = bfs(a, b);
 
